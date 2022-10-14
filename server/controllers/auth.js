@@ -1,11 +1,9 @@
-const { response } = require("express");
 const User = require("../models/user");
 const { successResponse, errResponse } = require("../utils/Response");
 const sendEmail = require("../utils/sendEmail");
 
 const register = async (req, res) => {
   const { fName, lName, email, password } = req.body;
-  console.log(email, password);
   try {
     await User.create({
       fName,
@@ -16,7 +14,6 @@ const register = async (req, res) => {
       successResponse(res, 200, "Account Created Successfully");
     });
   } catch (err) {
-    errorRes(500, err);
     if (err.code == 11000) {
       errResponse(res, 500, "Please try again, Email Already exists.");
     } else {
@@ -60,7 +57,7 @@ const forgotPass = async (req, res) => {
   const resetToken = user.getResetPassToken();
   await user.save();
 
-  const url = `http://localhost:3001/api/auth/resetPass/${resetToken}`;
+  const url = `${process.env.RESET_URL}${resetToken}`;
 
   sendEmail({
     to: email,
