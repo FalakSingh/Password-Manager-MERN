@@ -2,32 +2,31 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const session = require("express-session");
-const jwt = require("jsonwebtoken");
-
+const User = require("./models/user");
+const mongoose = require("mongoose");
+const DB_URL = process.env.DB_URL;
+const PORT = 3001;
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true }));
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
+
+
+
+
+
+
+mongoose.connect(DB_URL).then(() => {
+  app.listen(PORT, () => {
+    console.log(`MongoDB Connection Established\nServer up and running on PORT:${PORT}`)
   })
-);
-const token = jwt.sign({ id: "somerandomthing" }, process.env.JWT_SECRET, {
-  expiresIn: process.env.JWT_EXPIRES,
-});
+}).catch((error) => {
+  console.log(error);
+})
 
-app.get("/", (req, res) => {
-  res.send(token);
-});
+const usersome = async () => {
+  const user = await User.findOne({email:"singhfalak@gmail.com"});
+  if (user.passwordEntries.length < 1) {
+    console.log("shit again")
+  }
+}
 
-app.post("/", (req, res) => {
-  const givenToken = req.body.token;
-  const tok = jwt.verify(givenToken, process.env.JWT_SECRET);
-  console.log(tok);
-});
-
-app.listen(3001, () => {
-  console.log("server started");
-});
+usersome();

@@ -2,6 +2,13 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const passEntrySchema = new mongoose.Schema({
+  website: { type: String, maxLength: 25 },
+  username: { type: String, maxLength: 25 },
+  email: { type: String, maxLength: 25 },
+  password: { type: String, maxLength: 25 },
+});
+
 const userSchema = new mongoose.Schema({
   fName: { type: String, lowercase: true, maxLength: 20 },
   lName: { type: String, lowercase: true, maxLength: 20 },
@@ -17,8 +24,9 @@ const userSchema = new mongoose.Schema({
     select: false,
     maxLength: 30,
   },
-  resetPassToken:String,
-  resetPassExpires:Date,
+  passwordEntries:[passEntrySchema],
+  resetPassToken: String,
+  resetPassExpires: Date,
 });
 
 userSchema.pre("save", async function (next) {
@@ -36,14 +44,17 @@ userSchema.methods.getJwt = function () {
   });
 };
 
-userSchema.methods.getResetPassToken = function() {
+userSchema.methods.getResetPassToken = function () {
   const resetToken = crypto.randomBytes(20).toString("hex");
 
-  this.resetPassToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+  this.resetPassToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
   this.resetPassExpires = Date.now() + 10 * (60 * 1000);
 
-  return resetToken
-}
+  return resetToken;
+};
 
 const User = new mongoose.model("User", userSchema, "users");
 
