@@ -3,7 +3,7 @@
 
 const createEncryptionToken = async (req, res) => {
   const user = req.user;
-  if (user.secretKey> 1) {
+  if (user.secretKey) {
     return next();
   }
 

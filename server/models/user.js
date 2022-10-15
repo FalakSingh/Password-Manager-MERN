@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const passEntrySchema = new mongoose.Schema({
   website: { type: String, maxLength: 25 },
@@ -24,12 +25,19 @@ const userSchema = new mongoose.Schema({
     select: false,
     maxLength: 30,
   },
+  secretKey:{
+    type:String,
+    maxLength:30
+  },
   passwordEntries:[passEntrySchema],
   resetPassToken: String,
   resetPassExpires: Date,
 });
 
 userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
@@ -40,19 +48,18 @@ userSchema.methods.checkPass = async function (givenPassword) {
 
 userSchema.methods.getJwt = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
+    expiresIn: process.env.JWT_EXPIRES,
   });
 };
 
 userSchema.methods.getResetPassToken = function () {
   const resetToken = crypto.randomBytes(20).toString("hex");
-
+  console.log(resetToken);
   this.resetPassToken = crypto
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
   this.resetPassExpires = Date.now() + 10 * (60 * 1000);
-
   return resetToken;
 };
 

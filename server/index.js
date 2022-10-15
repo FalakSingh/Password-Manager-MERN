@@ -11,9 +11,6 @@ app.use(cors({ origin: true, credentials: true }));
 
 
 
-
-
-
 mongoose.connect(DB_URL).then(() => {
   app.listen(PORT, () => {
     console.log(`MongoDB Connection Established\nServer up and running on PORT:${PORT}`)

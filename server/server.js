@@ -6,7 +6,7 @@ const User = require("./models/user");
 
 
 const app = express();
-const DB_URL = process.env.DB_URL;
+const DB_URI = process.env.DB_URI;
 const PORT = process.env.PORT || 3001;
 
 
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 
 
-mongoose.connect(DB_URL).then(() => {
+mongoose.connect(DB_URI).then(() => {
   app.listen(PORT, () => {
     console.log(`MongoDB Connection Established\nServer up and running on PORT:${PORT}`)
   })

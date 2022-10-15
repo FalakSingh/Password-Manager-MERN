@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const { successResponse, errResponse } = require("../utils/Response");
 const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
 
 //function to handle post rqst for registering a user
 const register = async (req, res) => {
@@ -46,6 +47,7 @@ const login = async (req, res) => {
     }
     // returns authToken as response
     sendToken(user, 200, res);
+
   } catch (err) {
     console.log(err);
     errResponse(res, 500, err);
@@ -56,12 +58,12 @@ const forgotPass = async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
-
   if (!user) {
     errResponse(res, 404, "Email could not be sent");
   }
   // getResetPassToken is also a method declared in users file of userSchema
   const resetToken = user.getResetPassToken();
+  
   //saving the reset token in user collection
   await user.save();
 
