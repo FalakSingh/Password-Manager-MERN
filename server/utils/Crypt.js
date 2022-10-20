@@ -1,34 +1,36 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 const crypto = require("crypto");
+const { strToHex } = require("./strHex");
 const algorithm = "aes-256-ctr";
-const secretKey = process.env.CRYPTO_SECRET_KEY;
-const randBytesHex = process.env.CRYPTO_HEX;
+const keyHex = process.env.CRYPTO_SECRET_KEY;
+const ivHex = process.env.CRYPTO_IV_HEX;
 
-const encrypt = (text) => {
-  const iv = Buffer.from(randBytesHex, "hex");
-  const cipher = crypto.createCipheriv(algorithm, secretKey, iv);
+const encrypt = (text, passKey) => {
+  passKey = passKey.replace(/[^a-zA-Z ]/g, "");
+  const key = `${strToHex(passKey)}${keyHex}`.substring(0, 64);
+  let cipher = crypto.createCipheriv(
+    algorithm,
+    Buffer.from(key, "hex"),
+    Buffer.from(ivHex, "hex")
+  );
   const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
-
-  return {
-    content: encrypted.toString("hex"),
-  };
+  return encrypted.toString("hex");
 };
 
-const decrypt = (hash) => {
-  const decipher = crypto.createDecipheriv(
+const decrypt = (hex, passKey) => {
+  passKey = passKey.replace(/[^a-zA-Z ]/g, "");
+  const key = `${strToHex(passKey)}${keyHex}`.substring(0, 64);
+  let decipher = crypto.createCipheriv(
     algorithm,
-    secretKey,
-    Buffer.from(randBytesHex, "hex")
+    Buffer.from(key, "hex"),
+    Buffer.from(ivHex, "hex")
   );
-
-  const decrpyted = Buffer.concat([
-    decipher.update(Buffer.from(hash.content, "hex")),
+  const decrypted = Buffer.concat([
+    decipher.update(Buffer.from(hex, "hex")),
     decipher.final(),
   ]);
-
-  return decrpyted.toString();
+  return decrypted.toString();
 };
-
-
 
 module.exports = { encrypt, decrypt };

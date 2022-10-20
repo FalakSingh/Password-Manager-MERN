@@ -17,17 +17,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    maxLength: 20,
+    maxLength: 35,
   },
   password: {
     type: String,
     required: true,
     select: false,
-    maxLength: 30,
-  },
-  secretKey:{
-    type:String,
-    maxLength:30
+    maxLength: 35,
   },
   passwordEntries:[passEntrySchema],
   resetPassToken: String,
@@ -63,6 +59,7 @@ userSchema.methods.getResetPassToken = function () {
   return resetToken;
 };
 
-const User = new mongoose.model("User", userSchema, "users");
+
+const User = mongoose.model("User", userSchema, "users");
 
 module.exports = User;

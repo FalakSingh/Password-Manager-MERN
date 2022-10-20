@@ -15,16 +15,16 @@ const register = async (req, res) => {
       email,
       password,
     }).then(() => {
-      successResponse(res, 200, "Account Created Successfully");
+      return successResponse(res, 200, "Account Created Successfully");
     });
 
     // handles error
   } catch (err) {
     // 11000 is error code for duplicate key in mongoDB
     if (err.code == 11000) {
-      errResponse(res, 500, "Please try again, Email Already exists.");
+      return errResponse(res, 500, "Please try again, Email Already exists.");
     } else {
-      errResponse(res, 500, err);
+      return errResponse(res, 500, err);
     }
   }
 };
@@ -37,20 +37,20 @@ const login = async (req, res) => {
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      errResponse(res, 401, "Invalid Credentials");
+      return errResponse(res, 401, "Invalid Credentials");
     }
     // checkPass is a mongoose method declared in users file of userSchema
     const isMatch = await user.checkPass(password);
 
     if (!isMatch) {
-      errResponse(res, 401, "Invalid Credentials");
+      return errResponse(res, 401, "Invalid Credentials");
     }
     // returns authToken as response
-    sendToken(user, 200, res);
+    return sendToken(user, 200, res);
 
   } catch (err) {
     console.log(err);
-    errResponse(res, 500, err);
+    // errResponse(res, 500, err);
   }
 };
 
@@ -59,7 +59,7 @@ const forgotPass = async (req, res) => {
 
   const user = await User.findOne({ email });
   if (!user) {
-    errResponse(res, 404, "Email could not be sent");
+    return errResponse(res, 404, "Email could not be sent");
   }
   // getResetPassToken is also a method declared in users file of userSchema
   const resetToken = user.getResetPassToken();
@@ -77,7 +77,7 @@ const forgotPass = async (req, res) => {
   });
 
   try {
-    successResponse(res, 200, "Email Sent, Please Check your inbox");
+    return successResponse(res, 200, "Email Sent, Please Check your inbox");
 
     // if there is any error we fill clear out the following fields
   } catch (error) {
@@ -85,7 +85,7 @@ const forgotPass = async (req, res) => {
     user.resetPassExpires = undefined;
 
     await user.save();
-    errResponse(res, 500, error);
+    return errResponse(res, 500, error);
   }
 };
 
@@ -104,7 +104,7 @@ const resetPass = async (req, res) => {
     });
 
     if (!user) {
-      errResponse(res, 401, "Invalid Reset Token");
+      return errResponse(res, 401, "Invalid Reset Token");
     }
 
     //saving the password and clearing out the resetToken fields
@@ -114,9 +114,9 @@ const resetPass = async (req, res) => {
 
     await user.save();
 
-    successResponse(res, 200, "Password Updated Successfully");
+    return successResponse(res, 200, "Password Updated Successfully");
   } catch (error) {
-    errResponse(res, 500, "Something went wrong, Please try again");
+    return errResponse(res, 500, "Something went wrong, Please try again");
   }
 };
 

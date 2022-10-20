@@ -2,7 +2,7 @@ const jwtDecode = require("../utils/jwtDecode");
 const { errResponse } = require("../utils/Response");
 const User = require("../models/user");
 
-const validate = (req, res, next) => {
+const validate = async (req, res, next) => {
   let token;
 
   if (
@@ -18,7 +18,7 @@ const validate = (req, res, next) => {
 
   try {
     const decoded = jwtDecode(token);
-    const user = User.findOneId(decoded.id);
+    const user = await User.findOneId(decoded.id);
 
     if (!user) {
       errResponse(res, 404, "Unidentified User");
@@ -31,3 +31,4 @@ const validate = (req, res, next) => {
 };
 
 module.exports = validate;
+

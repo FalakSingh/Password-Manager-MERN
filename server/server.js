@@ -14,6 +14,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 app.use("/api/auth", require("./routes/auth"));
+app.use("/user", require("./routes/private"));
 
 
 mongoose.connect(DB_URI).then(() => {
