@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const {userPage} = require("../controllers/private");
+const { userPage, saveUserPassword } = require("../controllers/private");
 const validate = require("../middleware/validateUser");
-router.route("/userPage").get(validate, userPage);
+
+router.use(validate);
+
+router.route("/userPage").get(userPage);
+router.route("/savePass").post(saveUserPassword);
 
 module.exports = router;

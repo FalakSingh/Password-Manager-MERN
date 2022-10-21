@@ -13,22 +13,21 @@ const validate = async (req, res, next) => {
   }
 
   if (!token) {
-    errResponse(res, 400, "Not Authorized to access this route");
+    return errResponse(res, 400, "Not Authorized to access this route");
   }
 
   try {
     const decoded = jwtDecode(token);
-    const user = await User.findOneId(decoded.id);
+    const user = await User.findById(decoded.id);
 
     if (!user) {
-      errResponse(res, 404, "Unidentified User");
+      return errResponse(res, 404, "Unidentified User");
     }
     req.user = user;
     next();
   } catch (error) {
-    errResponse(res, 401, "Not Authorized to access this route");
+    return errResponse(res, 401, "Not Authorized to access this route");
   }
 };
 
 module.exports = validate;
-

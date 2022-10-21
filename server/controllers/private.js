@@ -12,9 +12,12 @@ const userPage = async (req, res) => {
   successResponse(res, 201, responseObject);
 };
 
-const saveUserPasswords = async (req, res) => {
+const saveUserPassword = async (req, res) => {
   const { website, username, email, password, passkey } = req.body;
   const uid = req.user._id;
+  console.log(uid);
+  const user = await User.findById(uid);
+  console.log(user);
 };
 
-module.exports = { userPage };
+module.exports = { userPage, saveUserPassword };
