@@ -4,10 +4,10 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 const passEntrySchema = new mongoose.Schema({
-  website: { type: String, maxLength: 25 },
+  website: { type: String, maxLength: 25, required:true  },
   username: { type: String, maxLength: 25 },
   email: { type: String, maxLength: 25 },
-  password: { type: String, maxLength: 25 },
+  password: { type: String, maxLength: 100, required:true },
 });
 
 const userSchema = new mongoose.Schema({
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
-    maxLength: 35,
+    maxLength: 50,
   },
   passwordEntries:[passEntrySchema],
   resetPassToken: String,
