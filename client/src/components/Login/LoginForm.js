@@ -29,24 +29,23 @@ const LoginForm = ({ isSubmit }) => {
     isSubmit(input);
   };
   return (
-    <Box h={{base:"100vh"}} w={{base:"50%"}} align="center">
+    <Box w={{base:"100%", lg:"50%"}} align="center">
       <Box
-        w="70%"
-        p="50px"
-        mt="20%"
-        
+        w={{base:"90%", md:"80%", lg:"90%", xl:"80%"}}
+        p={{base:"1.5em", md:"3em", xl:"3.8em"}}
+        mt={{base:"5em", lg:"60%", xl:"20%"}}
         borderRadius="20px"
         boxShadow="xl"
         backgroundColor="white"
       >
-        <Heading color="gray.500" mb="50px" fontSize="25">
+        <Heading color="gray.500" mb={{base:"1em", md:"3em" }} fontSize={{base:"xl", xl:"2xl"}}>
           Please Login to continue
         </Heading>
         <form onSubmit={handleSubmit}>
           <InputGroup>
             <Input
-              mb="20px"
-              pr="4.5rem"
+              mb={{base:"1em", lg:"20px", xl:"1.8em"}}
+              // pr="4.5rem"
               type="email"
               placeholder="Email Address"
               name="email"
@@ -56,7 +55,7 @@ const LoginForm = ({ isSubmit }) => {
               maxLength={40}
             />
           </InputGroup>
-          <InputGroup mb="20px">
+          <InputGroup mb={{base:"1em", lg:"20px", xl:"1.8em"}}>
             <Input
               pr="4.5rem"
               type={show ? "text" : "password"}
@@ -76,7 +75,9 @@ const LoginForm = ({ isSubmit }) => {
             Login
           </Button>
         </form>
+        <Box mt={{base:"1.5em"}}>
         <a href="#"> Forgot Password? </a>
+        </Box>
         {/* <Link to="localhost:3000"> Forgot Password? </Link> */}
       </Box>
     </Box>
