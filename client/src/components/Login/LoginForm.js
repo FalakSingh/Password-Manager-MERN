@@ -5,9 +5,10 @@ import {
   InputRightElement,
   Box,
   Heading,
+  Link
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link as Rlink } from "react-router-dom";
 
 const LoginForm = ({ isSubmit }) => {
   const [input, setInput] = useState({
@@ -76,9 +77,8 @@ const LoginForm = ({ isSubmit }) => {
           </Button>
         </form>
         <Box mt={{base:"1.5em"}}>
-        <a href="#"> Forgot Password? </a>
+        <Link color="blackAlpha.700" as={Rlink} to="/forgotpass"> Forgot Password? </Link>
         </Box>
-        {/* <Link to="localhost:3000"> Forgot Password? </Link> */}
       </Box>
     </Box>
   );

@@ -22,7 +22,7 @@ const register = async (req, res) => {
   } catch (err) {
     // 11000 is error code for duplicate key in mongoDB
     if (err.code == 11000) {
-      return errResponse(res, 500, "Please try again, Email Already exists.");
+      return errResponse(res, 400, "Please try again, Email Already exists.");
     } else {
       return errResponse(res, 500, err);
     }
@@ -47,7 +47,6 @@ const login = async (req, res) => {
     }
     // returns authToken as response
     return sendToken(user, 200, res);
-
   } catch (err) {
     console.log(err);
     // errResponse(res, 500, err);
@@ -63,7 +62,7 @@ const forgotPass = async (req, res) => {
   }
   // getResetPassToken is also a method declared in users file of userSchema
   const resetToken = user.getResetPassToken();
-  
+
   //saving the reset token in user collection
   await user.save();
 
@@ -119,7 +118,6 @@ const resetPass = async (req, res) => {
     return errResponse(res, 500, "Something went wrong, Please try again");
   }
 };
-
 
 function sendToken(user, statusCode, res) {
   const token = user.getJwt();

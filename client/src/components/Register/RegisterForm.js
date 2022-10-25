@@ -10,17 +10,15 @@ import {
 import { useState } from "react";
 
 const RegisterForm = (props) => {
-
   const toast = useToast();
-  const regInput = {
+
+  const [input, setInput] = useState({
     fName: "",
     lName: "",
     email: "",
     password: "",
     confirmPassword: "",
-  };
-
-  const [input, setInput] = useState(regInput);
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -42,11 +40,16 @@ const RegisterForm = (props) => {
         isClosable: true,
       });
 
-      return setInput(regInput);
+      return setInput((prevVal) => {
+        return {
+          ...prevVal,
+          password: "",
+          confirmPassword: "",
+        };
+      });
     } else {
       props.isSubmit(input);
     }
-
   };
   return (
     <Flex
@@ -56,11 +59,11 @@ const RegisterForm = (props) => {
       backgroundColor="blackAlpha.50"
     >
       <Box
-        mt={{ xl: "15em" }}
+        mt={{ base: "15em", xl: "15em" }}
         backgroundColor="white"
         borderRadius="20px"
-        w="40%"
-        p={{ xl: "4.2em" }}
+        w={{ base: "90%", md: "60%", xl: "40%" }}
+        p={{ base: "1.2em", xl: "4.2em" }}
         boxShadow="lg"
       >
         <form onSubmit={handleSubmit}>
@@ -68,6 +71,7 @@ const RegisterForm = (props) => {
             align="center"
             fontSize={{ xl: "2xl" }}
             color="blackAlpha.700"
+            p={{ base: "1.1em" }}
           >
             Register Here
           </Heading>
