@@ -1,6 +1,5 @@
 import { Box, Button, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
 import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
-import {useState} from "react"
 import { useNavigate } from "react-router-dom";
 const Navbar = (props) => {
   const navigate = useNavigate();

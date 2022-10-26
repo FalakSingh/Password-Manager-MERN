@@ -7,6 +7,7 @@ import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
+
   const toast = useToast();
   const navigate = useNavigate();
   const isSubmitted = async (loginVal) => {

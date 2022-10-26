@@ -1,8 +1,26 @@
+import { Flex } from "@chakra-ui/react";
+import PageTab from "../components/userPage/PageTab";
+import UserNav from "../components/userPage/UserNav";
+import { useState } from "react";
+import PasskeyModal from "../components/userPage/PasskeyModal";
 
 const UserPage = () => {
-  return (
-    <div>UserPage</div>
-  )
-}
+  const [isPasskey, setIsPasskey] = useState(false);
 
-export default UserPage
+  const passkeyFunc = (passkey) => {
+    window.sessionStorage.setItem("passkey", passkey);
+    setIsPasskey(true);
+  };
+
+  return (
+    <div>
+      <UserNav />
+      {!isPasskey ? <PasskeyModal passkeyFunc={passkeyFunc} passkeyVal={isPasskey} /> : null}
+      <Flex backgroundColor="blackAlpha.50" h="100vh" justify="center">
+        <PageTab />
+      </Flex>
+    </div>
+  );
+};
+
+export default UserPage;

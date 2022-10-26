@@ -1,3 +1,6 @@
+import { HStack, Box, Text, Icon, Spacer, Button } from "@chakra-ui/react";
+import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
+
 
 const UserNav = () => {
   return (
@@ -13,7 +16,7 @@ const UserNav = () => {
         <Text
           mt={{ base: "0.5em", lg: "1rem" }}
           mr={{ base: "0", lg: "0" }}
-          ml={{ base: "-1em" }}
+          ml={{ base: "18em" }}
           fontSize="xl"
           color="blackAlpha.700"
         >
@@ -26,6 +29,9 @@ const UserNav = () => {
           as={KeyRoundedIcon}
         />
         <Spacer />
+        <Button top={{ base: ".5em" }} right={{ base: "28em" }} variant="solid">
+          Logout
+        </Button>
       </HStack>
     </Box>
   )

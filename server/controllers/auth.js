@@ -55,10 +55,9 @@ const login = async (req, res) => {
 
 const forgotPass = async (req, res) => {
   const { email } = req.body;
-
   const user = await User.findOne({ email });
   if (!user) {
-    return errResponse(res, 404, "Email could not be sent");
+    return errResponse(res, 404, "Email could not be sent, Please try again.");
   }
   // getResetPassToken is also a method declared in users file of userSchema
   const resetToken = user.getResetPassToken();
@@ -76,7 +75,7 @@ const forgotPass = async (req, res) => {
   });
 
   try {
-    return successResponse(res, 200, "Email Sent, Please Check your inbox");
+    return successResponse(res, 200, "Email Sent, Please Check your inbox.");
 
     // if there is any error we fill clear out the following fields
   } catch (error) {
@@ -103,7 +102,7 @@ const resetPass = async (req, res) => {
     });
 
     if (!user) {
-      return errResponse(res, 401, "Invalid Reset Token");
+      return errResponse(res, 401, "Invalid Reset Token, Please try again.");
     }
 
     //saving the password and clearing out the resetToken fields
@@ -113,9 +112,9 @@ const resetPass = async (req, res) => {
 
     await user.save();
 
-    return successResponse(res, 200, "Password Updated Successfully");
+    return successResponse(res, 200, "Password Updated Successfully.");
   } catch (error) {
-    return errResponse(res, 500, "Something went wrong, Please try again");
+    return errResponse(res, 500, "Something went wrong, Please try again.");
   }
 };
 

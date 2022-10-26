@@ -50,7 +50,6 @@ userSchema.methods.getJwt = function () {
 
 userSchema.methods.getResetPassToken = function () {
   const resetToken = crypto.randomBytes(20).toString("hex");
-  console.log(resetToken);
   this.resetPassToken = crypto
     .createHash("sha256")
     .update(resetToken)

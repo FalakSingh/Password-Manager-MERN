@@ -1,13 +1,47 @@
-import { Flex, Input, Heading, Text, Button } from "@chakra-ui/react";
+import {
+  Flex,
+  Input,
+  Heading,
+  Text,
+  Button,
+  Toast,
+  useToast,
+} from "@chakra-ui/react";
 import Navbar from "../components/Navbar/Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const ForgotPass = () => {
+  const toast = useToast();
+  const url = process.env.REACT_APP_FORGOT_API;
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(email);
+    axios
+      .post(url, { email: email })
+      .then((response) => {
+        const { success, data } = response.data;
+        if (success) {
+          navigate("/");
+          toast({
+            title: data,
+            status: "success",
+            isClosable: true,
+          });
+        }
+      })
+      .catch((err) => {
+        const { success, error } = err.response.data;
+        if (!success) {
+          toast({
+            title: error,
+            status: "error",
+            isClosable: true,
+          });
+          setEmail("");
+        }
+      });
   };
 
   return (
@@ -20,7 +54,7 @@ const ForgotPass = () => {
         direction="column"
       >
         <Flex
-          w={{ base: "80%", md:"70%", xl: "40%" }}
+          w={{ base: "80%", md: "70%", xl: "40%" }}
           mt={{ base: "10em", xl: "20em" }}
           backgroundColor="white"
           boxShadow="lg"
@@ -56,6 +90,7 @@ const ForgotPass = () => {
               isRequired={true}
               minLength={8}
               maxLength={40}
+              value={email}
             />
             <Flex align="center" direction="column">
               <Button
