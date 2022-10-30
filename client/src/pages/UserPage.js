@@ -12,12 +12,13 @@ const UserPage = () => {
     setIsPasskey(true);
   };
 
+
   return (
     <div>
       <UserNav />
       {!isPasskey ? <PasskeyModal passkeyFunc={passkeyFunc} passkeyVal={isPasskey} /> : null}
       <Flex backgroundColor="blackAlpha.50" h="100vh" justify="center">
-        <PageTab />
+        <PageTab callApiFunc={callAddPassApi()} />
       </Flex>
     </div>
   );

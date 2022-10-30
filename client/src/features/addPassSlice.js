@@ -16,6 +16,9 @@ const passwordSlice = createSlice({
     addPass(state, action) {
       state.push(action.payload);
     },
+    apiAddPass(state) {
+      console.log(state)
+    }
   },
 });
 

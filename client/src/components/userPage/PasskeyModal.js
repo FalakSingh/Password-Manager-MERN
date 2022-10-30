@@ -34,7 +34,7 @@ const PasskeyModal = (props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Add Passkey</ModalHeader>
           <ModalCloseButton />
           <form onSubmit={handleSubmit}>
             <ModalBody>

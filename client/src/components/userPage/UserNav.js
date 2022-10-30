@@ -14,9 +14,9 @@ const UserNav = () => {
     >
       <HStack>
         <Text
-          mt={{ base: "0.5em", lg: "1rem" }}
-          mr={{ base: "0", lg: "0" }}
-          ml={{ base: "18em" }}
+          mt={{ base: "0.5em", "2xl": "1rem" }}
+          mr={{ "2xl": "0" }}
+          ml={{ base:"-0.5em", lg:"7em",  "2xl": "18em" }}
           fontSize="xl"
           color="blackAlpha.700"
         >
@@ -24,12 +24,12 @@ const UserNav = () => {
         </Text>
         <Icon
           pos="relative"
-          top={{ base: "0.3em", lg: "0.4em" }}
+          top={{ base: "0.3em", "2xl": "0.4em" }}
           color="blackAlpha.700"
           as={KeyRoundedIcon}
         />
         <Spacer />
-        <Button top={{ base: ".5em" }} right={{ base: "28em" }} variant="solid">
+        <Button top={{ base: ".5em" }} right={{ base:"-1em", lg:"7.5em", "2xl": "28em" }} variant="solid">
           Logout
         </Button>
       </HStack>

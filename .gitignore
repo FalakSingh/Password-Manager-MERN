@@ -13,6 +13,11 @@ test/
 
 # production
 /build
+/app
+app/
+features/
+/features
+
 
 # misc
 .env

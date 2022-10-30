@@ -7,12 +7,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addPass } from "./addPassSlice";
 
 const AddPassword = () => {
   const toast = useToast();
-  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const [passInput, setPassInput] = useState({
     website: "",
@@ -44,12 +41,11 @@ const AddPassword = () => {
     }
     const addPassInput = { ...passInput, passkey:passkey}
     console.log(addPassInput)
-    dispatch(addPass(addPassInput));
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <VStack align="center">
+      <VStack align="center" >
         <Input
           onChange={handleChange}
           placeholder="Website"
