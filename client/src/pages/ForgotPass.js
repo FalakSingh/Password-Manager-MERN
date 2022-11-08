@@ -2,9 +2,7 @@ import {
   Flex,
   Input,
   Heading,
-  Text,
   Button,
-  Toast,
   useToast,
 } from "@chakra-ui/react";
 import Navbar from "../components/Navbar/Navbar";

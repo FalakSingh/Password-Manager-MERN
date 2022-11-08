@@ -35,7 +35,7 @@ const ResetPass = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const url = `${process.env.REACT_APP_RESET_API}/${resetToken}`
+    const url = `${process.env.REACT_APP_RESET_API}/${resetToken}`;
 
     if (input.password !== input.confirmPassword) {
       toast({
@@ -51,7 +51,7 @@ const ResetPass = () => {
       });
     } else {
       axios
-        .put(url, {password:input.password})
+        .put(url, { password: input.password })
         .then((response) => {
           const { success, data } = response.data;
           if (success) {
@@ -66,7 +66,7 @@ const ResetPass = () => {
         .catch((err) => {
           const { success, error } = err.response.data;
           if (!success) {
-            navigate("/forgotpass")
+            navigate("/forgotpass");
             toast({
               title: error,
               status: "error",

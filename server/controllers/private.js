@@ -16,6 +16,7 @@ const userPage = async (req, res) => {
 const saveUserPassword = async (req, res) => {
   const { website, username, email, password, passkey } = req.body;
   const uid = req.user._id;
+
   try {
     const user = await User.findById(uid);
     if (!user) {
@@ -31,18 +32,11 @@ const saveUserPassword = async (req, res) => {
       password: encrypt(password, passkey),
     });
     await user.save();
+    return successResponse(res, 200, "Password Saved Successfully");
   } catch (error) {
     console.log(error);
     return res, 401, "Something went wrong.";
   }
-  const user = await User.findById(uid);
-  user.passwordEntries.push({
-    website,
-    username,
-    email,
-    password: encrypt(password, passkey),
-  });
-  await user.save();
 };
 
 const getUserPassword = async (req, res) => {
@@ -50,7 +44,7 @@ const getUserPassword = async (req, res) => {
   const uid = req.user._id;
   try {
     const user = await User.findById(uid);
-    if(!user) {
+    if (!user) {
       return errResponse(res, 404, "Not Authorized for following action.");
     }
     if (!passkey) {
@@ -59,6 +53,7 @@ const getUserPassword = async (req, res) => {
     const decPasswordEntries = user.passwordEntries.map((passwdEntry) => {
       return {
         _id: passwdEntry._id,
+        website: passwdEntry.website,
         email: passwdEntry.email,
         username: passwdEntry.username,
         password: decrypt(passwdEntry.password, passkey),
@@ -71,4 +66,21 @@ const getUserPassword = async (req, res) => {
   }
 };
 
-module.exports = { userPage, saveUserPassword, getUserPassword };
+const delPassEntry = async (req, res) => {
+  const uid = req.user._id;
+  const id = req.body.entryId;
+  if (!id) {
+    return errResponse(res, 400, "No Password Entry was found");
+  }
+  try {
+    await User.findByIdAndUpdate(uid, {
+      $pull: { passwordEntries: { _id: id } },
+    }).then(() => {
+      successResponse(res, 200, "Deleted Password Entry")
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { userPage, saveUserPassword, getUserPassword, delPassEntry };

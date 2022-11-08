@@ -4,7 +4,7 @@ const User = require("../models/user");
 
 const validate = async (req, res, next) => {
   let token;
-
+  
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")

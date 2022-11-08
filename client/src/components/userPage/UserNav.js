@@ -1,8 +1,15 @@
 import { HStack, Box, Text, Icon, Spacer, Button } from "@chakra-ui/react";
 import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
+import { useNavigate } from "react-router-dom"
 
+const UserNav = (props) => {
+  const navigate = useNavigate();
 
-const UserNav = () => {
+  const logout = () => {
+    window.sessionStorage.clear()
+    navigate("/")
+  }
+
   return (
     <Box
       pos="fixed"
@@ -11,6 +18,7 @@ const UserNav = () => {
       h="4rem"
       boxShadow="lg"
       px="2em"
+      zIndex={1}
     >
       <HStack>
         <Text
@@ -28,8 +36,11 @@ const UserNav = () => {
           color="blackAlpha.700"
           as={KeyRoundedIcon}
         />
+        {/* <Text>
+          Hello, {props.fName}
+        </Text> */}
         <Spacer />
-        <Button top={{ base: ".5em" }} right={{ base:"-1em", lg:"7.5em", "2xl": "28em" }} variant="solid">
+        <Button onClick={logout} top={{ base: ".5em" }} right={{ base:"-1em", lg:"7.5em", "2xl": "28em" }} variant="solid">
           Logout
         </Button>
       </HStack>
