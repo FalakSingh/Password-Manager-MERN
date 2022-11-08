@@ -15,9 +15,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route element={<PrivateRoute loginResponse={loginResponse} />}> */}
+        <Route element={<PrivateRoute loginResponse={loginResponse} />}>
           <Route exact path="/userpage" element={<UserPage />} />
-        {/* </Route> */}
+        </Route>
         <Route
           exact
           path="/"
