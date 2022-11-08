@@ -1,4 +1,4 @@
-# passwdManager
+# Password Manager
 
 MERN Stack App for Saving your Passwords online.
 
