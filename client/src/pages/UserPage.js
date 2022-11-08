@@ -7,6 +7,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const UserPage = () => {
+  const navigate = useNavigate();
+  const [isPasskey, setIsPasskey] = useState(false);
   const [fName, setFname] = useState("");
   useEffect(() => {
     const url = process.env.REACT_APP_USER_API;
@@ -29,8 +31,6 @@ const UserPage = () => {
       });
   }, []);
 
-  const [isPasskey, setIsPasskey] = useState(false);
-  const navigate = useNavigate();
 
   const passkeyFunc = (passkey) => {
     window.sessionStorage.setItem("passkey", passkey);
